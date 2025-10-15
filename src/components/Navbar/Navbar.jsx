@@ -4,7 +4,7 @@ import { AuthContext } from '../../contexts/AuthContext/AuthContext';
 
 const Navbar = () => {
 
-  const {user} = use(AuthContext)
+  const {user, loading} = use(AuthContext)
    
   console.log('user in the header ==>', user);
 
@@ -12,8 +12,10 @@ const Navbar = () => {
         <li><NavLink to="/">Home</NavLink></li>
         <li><NavLink to="/login">Login</NavLink></li>
         <li><NavLink to="/register">Register</NavLink></li>
-        <li><NavLink to="/">{user?.email}</NavLink></li>
+        <li> {loading ? <p>...loading...</p> : <NavLink to="/">{user?.email}</NavLink>}</li>       
     </>
+
+     
 
     return (
         <div className="navbar bg-base-100 shadow-sm">

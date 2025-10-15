@@ -6,6 +6,7 @@ import { auth } from '../../firebase/firebase.config';
 const AuthProvider = ({children}) => {
 
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true)
 
     const createUser = (email, password) => {
         return createUserWithEmailAndPassword(auth, email, password)
@@ -22,6 +23,7 @@ const AuthProvider = ({children}) => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             console.log('current user onAuthStateChange', currentUser);
             setUser(currentUser)
+            setLoading(false)
         })
         // clear the observer on mount
         return () => {
@@ -39,6 +41,7 @@ const AuthProvider = ({children}) => {
 
     const userInfo = {
         user,
+        loading,
         createUser,
         loginUser
     }
