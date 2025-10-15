@@ -1,10 +1,11 @@
 import React, { use } from 'react';
 import { Link, NavLink } from 'react-router';
 import { AuthContext } from '../../contexts/AuthContext/AuthContext';
+import './Navbar.css'
 
 const Navbar = () => {
 
-  const {user, loading} = use(AuthContext)
+  const {user, loading, signOutUser} = use(AuthContext)
    
   console.log('user in the header ==>', user);
 
@@ -12,9 +13,23 @@ const Navbar = () => {
         <li><NavLink to="/">Home</NavLink></li>
         <li><NavLink to="/login">Login</NavLink></li>
         <li><NavLink to="/register">Register</NavLink></li>
-        <li> {loading ? <p>...loading...</p> : <NavLink to="/">{user?.email}</NavLink>}</li>       
+
+         {
+           user &&  <>
+              <li><NavLink to="/orders">Orders</NavLink></li>
+              <li><NavLink to="/profile">Profile</NavLink></li>
+           </>
+         }      
     </>
 
+
+  const handleSignOutUser = () => {
+      signOutUser()
+      .then(() => {
+         alert('sign out successfull!')
+      })
+      .catch(error => console.log(error))
+  }
      
 
     return (
@@ -39,7 +54,7 @@ const Navbar = () => {
   </div>
   <div className="navbar-end">
     {
-      user ? <a className="btn">Log Out</a> : <Link to="/login">Log in</Link>
+      user ? <a onClick={handleSignOutUser} className="btn">Log Out</a> : <Link to="/login">Log in</Link>
     }
   </div>
 </div>
