@@ -1,13 +1,18 @@
-import React from 'react';
-import { NavLink } from 'react-router';
+import React, { use } from 'react';
+import { Link, NavLink } from 'react-router';
+import { AuthContext } from '../../contexts/AuthContext/AuthContext';
 
 const Navbar = () => {
 
+  const {user} = use(AuthContext)
+   
+  console.log('user in the header ==>', user);
 
     const links = <>
         <li><NavLink to="/">Home</NavLink></li>
         <li><NavLink to="/login">Login</NavLink></li>
         <li><NavLink to="/register">Register</NavLink></li>
+        <li><NavLink to="/">{user?.email}</NavLink></li>
     </>
 
     return (
@@ -31,7 +36,9 @@ const Navbar = () => {
     </ul>
   </div>
   <div className="navbar-end">
-    <a className="btn">Log Out</a>
+    {
+      user ? <a className="btn">Log Out</a> : <Link to="/login">Log in</Link>
+    }
   </div>
 </div>
     );
